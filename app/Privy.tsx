@@ -87,72 +87,111 @@ export default function UseLoginPrivy() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-2 bg-base-100 p-4 m-8 rounded-lg min-w-96">
-      <h2 className="text-lg font-bold">Privy</h2>
-      <div className="flex flex-col md:flex-row gap-4">
-        <button onClick={() => login()} className="btn btn-xs btn-primary">
-          Login
-        </button>
-        <button onClick={logout} className="btn btn-xs btn-primary">
-          Logout
-        </button>
-        <button 
-          onClick={handleCreateWallet} 
-          disabled={isCreating || hasEthereumWallet}
-          className="btn btn-xs btn-primary disabled:bg-primary/50 disabled:cursor-not-allowed"
-        >
-          {hasEthereumWallet ? "Wallet Exists" : isCreating ? "Creating..." : "Create Wallet"}
-        </button>
-      </div>
-      {hasEthereumWallet && (
-        <div className="w-full p-3 bg-gray-50 rounded-lg border">
-          <p className="text-sm font-semibold text-gray-700 mb-2">Embedded Wallet:</p>
-          <p className="text-xs font-mono bg-white p-2 rounded border break-all mb-2">
-            {walletAddress}
-          </p>
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-gray-700">Balance:</p>
-            <div className="flex items-center gap-2">
-              <p className="text-sm font-mono">
-                {balanceLoading ? (
-                  "Loading..."
-                ) : balanceError ? (
-                  "Error loading balance"
-                ) : (
-                  `${parseFloat(balance || "0").toFixed(4)} MON`
-                )}
-              </p>
-              <button
-                onClick={fetchBalance}
-                className="text-xs px-2 py-1 bg-blue-100 hover:bg-blue-200 rounded text-blue-700"
-                disabled={balanceLoading}
-              >
-                ↻
-              </button>
-            </div>
+    <div>
+      <div>
+        {/* Header Section */}
+        <div>
+          <h1>Privy Wallet</h1>
+          <p>Connect and manage your embedded wallet</p>
+        </div>
+
+        {/* Action Buttons Section */}
+        <div>
+          <div>
+            <button onClick={() => login()}>
+              Login
+            </button>
+            <button onClick={logout}>
+              Logout
+            </button>
+            <button 
+              onClick={handleCreateWallet} 
+              disabled={isCreating || hasEthereumWallet}
+            >
+              {hasEthereumWallet ? "✓ Wallet Exists" : isCreating ? "Creating..." : "Create Wallet"}
+            </button>
           </div>
+
+          {/* Wallet Information Section */}
+          {hasEthereumWallet && (
+            <div>
+              <h3>Embedded Wallet</h3>
+              
+              <div>
+                <div>
+                  <label>Address</label>
+                  <div>
+                    {walletAddress}
+                  </div>
+                </div>
+                
+                <div>
+                  <div>
+                    <label>Balance</label>
+                    <button
+                      onClick={fetchBalance}
+                      disabled={balanceLoading}
+                      title="Refresh balance"
+                    >
+                      {balanceLoading ? "⟳" : "↻"}
+                    </button>
+                  </div>
+                  <div>
+                    <span>
+                      {balanceLoading ? (
+                        "Loading..."
+                      ) : balanceError ? (
+                        "Error loading balance"
+                      ) : (
+                        `${parseFloat(balance || "0").toFixed(4)} MON`
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Transaction Section */}
+          {user && (
+            <div>
+              <h3>Send Transaction</h3>
+              
+              <div>
+                <div>
+                  <label>
+                    Recipient Address
+                  </label>
+                  <input
+                    value={userAddress || ""}
+                    onChange={(e) => setUserAddress(e.target.value)}
+                    placeholder="Enter recipient address"
+                  />
+                </div>
+                
+                <button
+                  onClick={onSendTransaction}
+                  disabled={!userAddress}
+                >
+                  Send 0.001 MON
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* User Information Section */}
+          {user && (
+            <div>
+              <h3>User Information</h3>
+              <div>
+                <pre>
+                  {JSON.stringify(user, null, 2)}
+                </pre>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-      {user && (
-        <div className="flex flex-col gap-2 w-full ">
-          <input
-            value={userAddress || ""}
-            onChange={(e) => setUserAddress(e.target.value)}
-            placeholder="Enter your address"
-          />
-          <button
-            onClick={onSendTransaction}
-            className="btn btn-xs btn-primary self-center"
-          >
-            Send 0.001 MON
-          </button>
-        </div>
-      )}
-      {user && (
-        <pre className="max-w-4xl bg-slate-700 text-slate-50 font-mono p-4 text-xs sm:text-sm rounded-md mt-2">
-          {JSON.stringify(user, null, 2)}
-        </pre>
-      )}
+      </div>
     </div>
   );
 }
