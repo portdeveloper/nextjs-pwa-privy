@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
 
-import SendNotification from "./SendNotification";
-
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Offline",
 };
 
 export default function Page() {
   return (
     <>
-      <h1>Next.js + Serwist</h1>
-      <SendNotification />
+      <h1>This is offline fallback page</h1>
+      <h2>When offline, any page route will fallback to this page</h2>
     </>
   );
 }
