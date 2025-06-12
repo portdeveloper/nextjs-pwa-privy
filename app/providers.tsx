@@ -2,6 +2,7 @@
 
 import { PrivyProvider } from "@privy-io/react-auth";
 import type { ReactNode } from "react";
+import { monadTestnet } from "viem/chains";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -19,6 +20,8 @@ export default function Providers({ children }: ProvidersProps) {
             createOnLogin: "users-without-wallets",
           },
         },
+        defaultChain: monadTestnet,
+        supportedChains: [monadTestnet],
       }}
     >
       {children}
