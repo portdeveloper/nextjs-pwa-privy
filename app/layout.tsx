@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import Providers from "./providers";
+import BasePrivyProvider from "./privy-provider";
 
 const APP_NAME = "NJS App";
 const APP_DESCRIPTION = "Next.js + Serwist PWA";
@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             `}</style>
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <BasePrivyProvider>{children}</BasePrivyProvider>
       </body>
     </html>
   );
