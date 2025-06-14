@@ -19,6 +19,10 @@ export default function Providers({ children }: ProvidersProps) {
           ethereum: {
             createOnLogin: "users-without-wallets",
           },
+          priceDisplay: {
+            primary: "native-token",
+            secondary: null,
+          },
         },
         defaultChain: monadTestnet,
         supportedChains: [monadTestnet],
